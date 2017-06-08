@@ -11,7 +11,7 @@ lazy val travisCommit = Option(System.getenv().get("TRAVIS_COMMIT"))
 
 lazy val scalaVersionSettings = Seq(
   scalaVersion := "2.12.1",
-  crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value)
+  crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value, "2.13.0-M1")
 )
 
 lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
@@ -78,6 +78,9 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
 
   // don't use fatal warnings in tests
   scalacOptions in Test ~= (_ filterNot (_ == "-Xfatal-warnings")),
+
+  // ...or docs
+  scalacOptions in (Compile, doc) ~= (_ filterNot (_ == "-Xfatal-warnings")),
 
   //mimaPreviousArtifacts := (
   //  if (CrossVersion isScalaApiCompatible scalaVersion.value)
